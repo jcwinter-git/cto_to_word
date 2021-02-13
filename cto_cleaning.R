@@ -1,7 +1,8 @@
 # Taking ODK Excel file and outputting in a table
 
 library(readxl)
-library(dplyr)
+library(tidyverse)
+library(rmarkdown)
 
 # Data loading
 
@@ -13,12 +14,6 @@ s = s %>% select(type, name, ID, label, hint, constraint, relevance) %>%
   mutate(label = paste(ID, label, sep=" ")) %>%
   select(-ID)
 c = c %>% select(list_name, name, label)
-output = ""
-for (i in 1:nrow(s)){
-  output = paste("", output, cto_to_word(i), sep = "\n")
-}
-cat(output)
-
 
 cto_to_word = function(index) {
   choice_lookup = strsplit(s$type[index]," ")[[1]][2]
@@ -41,3 +36,8 @@ cto_to_word = function(index) {
 }
 
 
+output = ""
+for (i in 1:nrow(s)){
+  output = paste("", output, cto_to_word(i), sep = "\n")
+}
+cat(output)
